@@ -1,0 +1,12 @@
+node_modules
+.idea
+dist
+build
+release
+.DS_Store
+
+cordova-app/platforms/android/app/src/main/assets/www/index.html
+cordova-app/platforms/android/app/src/main/assets/www/index-cordova.js
+cordova-app/platforms/android/app/src/main/assets/www/assets
+
+xebitris.iml

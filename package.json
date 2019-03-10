@@ -1,0 +1,57 @@
+{
+  "name": "xebitris",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "7.3.4",
+    "@babel/plugin-proposal-class-properties": "7.3.4",
+    "@babel/preset-env": "7.3.4",
+    "babel-loader": "8.0.5",
+    "commitizen": "^3.0.7",
+    "compression-webpack-plugin": "2.0.0",
+    "copy-webpack-plugin": "5.0.0",
+    "cordova": "8.1.2",
+    "cz-conventional-changelog": "^2.1.0",
+    "html-loader": "0.5.5",
+    "html-webpack-plugin": "3.2.0",
+    "husky": "1.3.1",
+    "lint-staged": "^8.1.5",
+    "prettier": "1.16.4",
+    "prettier-webpack-plugin": "1.2.0",
+    "rimraf": "2.6.3",
+    "surge": "0.20.1",
+    "terser-webpack-plugin": "1.2.3",
+    "webpack": "4.29.6",
+    "webpack-cli": "3.2.3",
+    "webpack-dev-server": "3.2.1",
+    "webpack-merge": "4.2.1"
+  },
+  "scripts": {
+    "commit": "git-cz",
+    "clean": "rimraf dist/* cordova-app/platforms/android/app/src/main/assets/www/index-cordova.js cordova-app/platforms/android/app/src/main/assets/www/index.html cordova-app/platforms/android/app/src/main/assets/www/assets",
+    "start": "webpack-dev-server --config webpack.config.base.js --open",
+    "prebuild": "yarn clean",
+    "build": "webpack --config webpack.config.prod.js",
+    "postbuild": "yarn move-to-cordova && yarn clean-gzip-cordova",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "predeploy": "yarn build",
+    "deploy": "surge dist https://xebitris.surge.sh",
+    "move-to-cordova": "mv dist/index-cordova.html cordova-app/platforms/android/app/src/main/assets/www/index.html && mv dist/index-cordova.js cordova-app/platforms/android/app/src/main/assets/www/index-cordova.js && cp -R dist/assets cordova-app/platforms/android/app/src/main/assets/www",
+    "clean-gzip-cordova": "rm -rf dist/index-cordova*"
+  },
+  "dependencies": {
+    "phaser": "3.16.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.js": [
+      "prettier --single-quote --write",
+      "git add"
+    ]
+  }
+}
