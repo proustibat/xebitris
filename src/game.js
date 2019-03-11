@@ -1,13 +1,11 @@
 import * as Phaser from 'phaser';
-import PlayGame from './scenes/PlayGame';
+import BootGame from './scenes/BootGame';
+import PlayGround from './scenes/PlayGround';
 import { gameOptions } from './options';
 
-export default class App {
-  gameConfig = null;
-  game = null;
-
+class Game extends Phaser.Game {
   constructor() {
-    this.gameConfig = {
+    const config = {
       type: Phaser.AUTO,
       backgroundColor: 0xecf0f1,
       scale: {
@@ -23,9 +21,11 @@ export default class App {
           gravity: { y: 200 }
         }
       },
-      scene: [PlayGame]
+      scene: [BootGame, PlayGround]
     };
 
-    this.game = new Phaser.Game(this.gameConfig);
+    super(config);
   }
 }
+
+export default Game;

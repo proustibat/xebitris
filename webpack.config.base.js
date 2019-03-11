@@ -46,7 +46,7 @@ module.exports = {
             bracketSpacing: true,         // Print spaces between brackets in object literals.
             arrowParens: 'always',        // Include parentheses around a sole arrow function parameter.
             encoding: 'utf-8',            // Which encoding scheme to use on files
-            extensions: [ ".js" ]  // Which file extensions to process
+            extensions: [ ".js" ]         // Which file extensions to process
         }),
         new CopyPlugin([
             { from: 'src/assets', to: 'assets' }
@@ -56,12 +56,12 @@ module.exports = {
             WEBGL_RENDERER: JSON.stringify(true)
         }),
         new HtmlWebPackPlugin({
-            template: 'src/index-cordova.html',
+            template: path.resolve(__dirname, 'src', 'index-cordova.html'),
             filename: 'index-cordova.html',
             chunks: ['index-cordova']
         }),
         new HtmlWebPackPlugin({
-            template: 'src/index-webapp.html',
+            template: path.resolve(__dirname, 'src', 'index-webapp.html'),
             filename: 'index.html',
             chunks: ['index-webapp'],
             minify: {

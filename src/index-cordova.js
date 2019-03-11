@@ -1,5 +1,5 @@
-import App from './app';
+import Game from './game';
 
 document.addEventListener('deviceready', () => {
-  new App();
+  new Game();
 });
