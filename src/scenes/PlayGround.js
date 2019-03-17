@@ -119,7 +119,7 @@ export default class PlayGround extends Scene {
                 this.piece.moveLeft();
             }
             if (swipe.y > gameOptions.swipeMinNormal) {
-                console.log('SWIPE DOWN');
+                this.piece.moveDown();
             }
             if (swipe.y < -gameOptions.swipeMinNormal) {
                 this.piece.rotate();
