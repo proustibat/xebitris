@@ -33,14 +33,15 @@
     "start": "webpack-dev-server --config webpack.config.base.js --open",
     "prebuild": "yarn clean",
     "build": "webpack --config webpack.config.prod.js",
-    "postbuild": "yarn move-to-cordova && yarn clean-gzip-cordova",
+    "postbuild": "yarn move-to-cordova && yarn clean-cordova-files",
     "test": "echo \"Error: no test specified\" && exit 1",
     "predeploy": "yarn build",
     "deploy": "surge dist https://xebitris.surge.sh",
     "move-to-cordova": "mv dist/index-cordova.html cordova-app/platforms/android/app/src/main/assets/www/index.html && mv dist/index-cordova.js cordova-app/platforms/android/app/src/main/assets/www/index-cordova.js && cp -R dist/assets cordova-app/platforms/android/app/src/main/assets/www",
-    "clean-gzip-cordova": "rm -rf dist/index-cordova*"
+    "clean-cordova-files": "rimraf dist/index-cordova* cordova-app/platforms/android/app/src/main/assets/www/**/*.gz cordova-app/platforms/android/app/src/main/assets/www/**/.DS_Store*"
   },
   "dependencies": {
+    "lodash": "^4.17.11",
     "phaser": "3.16.2"
   },
   "husky": {

@@ -1,5 +1,5 @@
 import { Scene } from 'phaser';
-import SPRITES from '../assets/sprites';
+import SPRITES from '../sprites';
 import PlayGround from './PlayGround';
 
 export default class BootGame extends Scene {

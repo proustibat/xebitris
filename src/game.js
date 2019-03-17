@@ -15,13 +15,12 @@ class Game extends Phaser.Game {
         width: gameOptions.width,
         height: gameOptions.width * gameOptions.aspectRatio
       },
-      physics: {
-        default: 'arcade',
-        arcade: {
-          gravity: { y: 200 }
-        }
+      disableContextMenu: true,
+      // scene: [BootGame, PlayGround],
+      banner: {
+        hidePhaser: true
       },
-      scene: [BootGame, PlayGround]
+      scene: [PlayGround]
     };
 
     super(config);

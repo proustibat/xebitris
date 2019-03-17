@@ -13,7 +13,7 @@ const SPRITES = Object.freeze({
   },
   TETROMINO_TILE: {
     key: 'tetromino-tile',
-    path: 'assets/sprites/tetromino-tile.png'
+    path: 'assets/sprites/tetromino-tile-16.png'
   }
 });
 
