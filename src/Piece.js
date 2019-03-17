@@ -8,6 +8,10 @@ class Piece {
     type = null;
     matrix = null;
     tiles = null;
+    canMove = {
+        left: true,
+        right: true,
+    };
 
     constructor(scene) {
         console.log('Hello Piece');
@@ -54,17 +58,23 @@ class Piece {
 
     moveDown = () => {
         console.log('Piece.moveDown');
-        this.tiles.forEach(tile => (tile.y += gameOptions.tileSize));
+        this.tiles.forEach(tile => {
+            tile.y += gameOptions.tileSize;
+        });
     };
 
     moveLeft = () => {
         console.log('Piece.moveLeft');
-        this.moveSide(-1);
+        if (this.canMove.left) {
+            this.moveSide(-1);
+        }
     };
 
     moveRight = () => {
         console.log('Piece.moveRight');
-        this.moveSide(+1);
+        if (this.canMove.right) {
+            this.moveSide(+1);
+        }
     };
 
     moveSide = direction => {
