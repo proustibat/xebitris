@@ -15,6 +15,8 @@ export default class PlayGround extends Scene {
     speedInterval = gameOptions.speeds.normal;
     lastUpdate = 0;
 
+    offPieces = null;
+
     constructor() {
         console.log('Hello PlayGround');
         super({ key: PlayGround.name });
@@ -29,8 +31,7 @@ export default class PlayGround extends Scene {
         console.log('PlayGround.create');
         this.width = gameOptions.tileSize * gameOptions.tileNbWidth;
         this.height = gameOptions.tileSize * gameOptions.tileNbHeight;
-        // this.height = this.game.config.height;
-        this.startX = Math.floor((this.game.config.width - this.width) / 2);
+        this.startX = 0;
         this.startY = Math.floor((this.game.config.height - this.height) / 2);
 
         this.scale.lockOrientation(Phaser.Scale.LANDSCAPE);
@@ -40,6 +41,8 @@ export default class PlayGround extends Scene {
         this.createPiece();
 
         this.initPlayer();
+
+        this.offPieces = [];
     }
 
     setBackrgound = () => {
@@ -52,7 +55,7 @@ export default class PlayGround extends Scene {
     createPiece = () => {
         console.log('PlayGround.createPiece');
         this.piece = new Piece(this);
-        this.piece.initCoordinates(this.startX + this.width / 2, this.startY);
+        this.piece.initCoordinates(this.startX + this.width / 2 - gameOptions.tileSize, this.startY);
     };
 
     initPlayer = () => {
@@ -78,7 +81,7 @@ export default class PlayGround extends Scene {
                 break;
             case 'KeyW':
             case 'ArrowUp':
-                this.piece.rotate();
+                this.piece.rotate(this.startX + this.width, this.height + this.startY);
                 break;
             case 'KeyS':
             case 'ArrowDown':
@@ -150,30 +153,17 @@ export default class PlayGround extends Scene {
     }
 
     checkCollides = () => {
-        console.log('PlayGround.checkCollides');
         // The tile is on the ground
         const maxTileY = Math.max(...this.piece.tiles.map(tile => tile.y));
         const isOnTheGround = maxTileY + gameOptions.tileSize >= this.height + this.startY;
         if (isOnTheGround) {
+            this.offPieces.push(this.piece);
             this.createPiece();
         }
 
         // The tile is near one of the sides
-        const minTileX = Math.min(...this.piece.tiles.map(tile => tile.x));
-        if (minTileX <= this.startX) {
-            console.log('CANT GO LEFT ONCE AGAIN');
-            console.log('minTileX: ', minTileX, ' vs ', this.startX);
-            this.piece.canMove.left = false;
-        } else {
-            this.piece.canMove.left = true;
-        }
-        const maxTileX = Math.max(...this.piece.tiles.map(tile => tile.x));
-        if (maxTileX + gameOptions.tileSize >= this.startX + this.width) {
-            console.log('CANT GO RIGHT ONCE AGAIN');
-            console.log('maxTileX: ', maxTileX + gameOptions.tileSize, ' vs ', this.startX + this.width);
-            this.piece.canMove.right = false;
-        } else {
-            this.piece.canMove.right = true;
-        }
+        this.piece.canMove.left = Math.min(...this.piece.tiles.map(tile => tile.x)) > this.startX;
+        this.piece.canMove.right =
+            Math.max(...this.piece.tiles.map(tile => tile.x)) + gameOptions.tileSize < this.startX + this.width;
     };
 }

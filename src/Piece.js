@@ -4,7 +4,7 @@ import { gameOptions } from './options';
 
 class Piece {
     currentScene = null;
-    position = null;
+    _position = 0;
     type = null;
     matrix = null;
     tiles = null;
@@ -19,7 +19,6 @@ class Piece {
 
         this.createTiles();
         this.setRandomTypeAndPosition();
-        this.shapePiece();
     }
 
     createTiles = () => {
@@ -39,14 +38,6 @@ class Piece {
         this.position = Math.floor(Math.random() * this.matrix.length);
     };
 
-    shapePiece = () => {
-        console.log('Piece.shapePiece');
-        this.tiles.forEach((tile, index) => {
-            tile.x = this.matrix[this.position][index].x * gameOptions.tileSize;
-            tile.y = this.matrix[this.position][index].y * gameOptions.tileSize;
-        });
-    };
-
     initCoordinates = (originX, originY) => {
         const x = originX - Math.min(...this.tiles.map(tile => tile.x));
         const y = originY - Math.min(...this.tiles.map(tile => tile.y));
@@ -57,7 +48,6 @@ class Piece {
     };
 
     moveDown = () => {
-        console.log('Piece.moveDown');
         this.tiles.forEach(tile => {
             tile.y += gameOptions.tileSize;
         });
@@ -81,16 +71,52 @@ class Piece {
         this.tiles.forEach(tile => (tile.x += direction * gameOptions.tileSize));
     };
 
-    rotate = () => {
+    rotate = (limitX, limitY) => {
         console.log('Piece.rotate');
-        const nextPosition = this.position + 1 < this.matrix.length ? this.position + 1 : 0;
-        this.position = nextPosition;
-
         const originalX = Math.min(...this.tiles.map(tile => tile.x));
         const originalY = Math.min(...this.tiles.map(tile => tile.y));
-        this.shapePiece();
+
+        // Check if the next position of the piece will touch the ground
+        const nextPos = this._position + 1 >= this.matrix.length ? 0 : this._position + 1;
+        const tilesNbMap = [...Array(4).keys()];
+        const maxYNextMatrix = Math.max(
+            ...tilesNbMap.map(i => {
+                return (
+                    this.matrix[nextPos][i].y * gameOptions.tileSize +
+                    originalY -
+                    Math.min(...tilesNbMap.map(i => this.matrix[nextPos][i].y * gameOptions.tileSize))
+                );
+            })
+        );
+        if (maxYNextMatrix + gameOptions.tileSize > limitY) {
+            console.log("CAN'T ROTATE");
+            return;
+        }
+
+        // Get the next position
+        this.position = nextPos;
         this.initCoordinates(originalX, originalY);
+
+        // Check if the piece is outside the board on the right
+        const maxTileX = Math.max(...this.tiles.map(tile => tile.x));
+        const tooMuchX = maxTileX - limitX;
+        if (tooMuchX >= 0) {
+            const directionSizeToSlide = parseInt(tooMuchX / gameOptions.tileSize, 10) + 1;
+            this.moveSide(-directionSizeToSlide);
+        }
     };
+
+    get position() {
+        return this._position;
+    }
+
+    set position(pos) {
+        this._position = pos >= this.matrix.length ? 0 : pos;
+        this.tiles.forEach((tile, index) => {
+            tile.x = this.matrix[this._position][index].x * gameOptions.tileSize;
+            tile.y = this.matrix[this._position][index].y * gameOptions.tileSize;
+        });
+    }
 }
 
 export default Piece;
