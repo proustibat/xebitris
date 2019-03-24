@@ -44,3 +44,9 @@ export const PIECE_MATRIX = Object.freeze({
         [new Point(-1, 0), new Point(-1, -1), new Point(-1, -2), new Point(0, -1)],
     ],
 });
+
+export const COLLIDES = Object.freeze({
+    LEFT: 'COLLIDES_LEFT',
+    RIGHT: 'COLLIDES_RIGHT',
+    DOWN: 'COLLIDES_DOWN',
+});

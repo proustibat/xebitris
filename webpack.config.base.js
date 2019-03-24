@@ -8,8 +8,8 @@ module.exports = {
     mode: 'development',
     devtool: 'eval-source-map',
     entry: {
-        'index-webapp': './src/index-webapp.js',
-        'index-cordova': './src/index-cordova.js'
+        'index-webapp': ['@babel/polyfill', './src/index-webapp.js'],
+        'index-cordova': ['@babel/polyfill', './src/index-cordova.js']
     },
     output: {
         path: path.resolve(__dirname, './dist'),

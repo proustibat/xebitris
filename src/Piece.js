@@ -12,13 +12,18 @@ class Piece {
         left: true,
         right: true,
     };
+    startX = 0;
+    startY = 0;
 
-    constructor(scene) {
+    constructor(scene, startX, startY) {
         console.log('Hello Piece');
         this.currentScene = scene;
+        this.startX = startX;
+        this.startY = startY;
 
         this.createTiles();
         this.setRandomTypeAndPosition();
+        this.initCoordinates(startX, startY);
     }
 
     createTiles = () => {
@@ -39,6 +44,7 @@ class Piece {
     };
 
     initCoordinates = (originX, originY) => {
+        console.log('Piece.initCoordinates');
         const x = originX - Math.min(...this.tiles.map(tile => tile.x));
         const y = originY - Math.min(...this.tiles.map(tile => tile.y));
         this.tiles.forEach(tile => {

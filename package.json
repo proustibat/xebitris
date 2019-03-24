@@ -4,10 +4,11 @@
   "private": true,
   "license": "MIT",
   "devDependencies": {
-    "@babel/core": "7.3.4",
+    "@babel/core": "^7.4.0",
     "@babel/plugin-proposal-class-properties": "7.3.4",
-    "@babel/preset-env": "7.3.4",
-    "babel-loader": "8.0.5",
+    "@babel/preset-env": "^7.4.2",
+    "@babel/register": "^7.4.0",
+    "babel-loader": "^8.0.5",
     "commitizen": "^3.0.7",
     "compression-webpack-plugin": "2.0.0",
     "copy-webpack-plugin": "5.0.0",
@@ -41,6 +42,7 @@
     "clean-cordova-files": "rimraf dist/index-cordova* cordova-app/platforms/android/app/src/main/assets/www/**/*.gz cordova-app/platforms/android/app/src/main/assets/www/**/.DS_Store*"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.4.0",
     "lodash": "^4.17.11",
     "phaser": "3.16.2"
   },
